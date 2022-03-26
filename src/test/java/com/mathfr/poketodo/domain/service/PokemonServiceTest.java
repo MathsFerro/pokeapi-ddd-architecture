@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-class TodoServiceTest {
+class PokemonServiceTest {
 
     @Autowired
     private PokemonService todoService;
@@ -27,6 +27,11 @@ class TodoServiceTest {
         List<Pokemon> todoList = List.of(Pokemon.builder().build());
 //        when(todoRepository.findAll()).thenReturn(todoList);
         assertNotNull(todoService.findAll());
+    }
+
+    @Test
+    void randomize() {
+        //todoService.sortPokemon();
     }
 
 }
