@@ -18,20 +18,19 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class PokemonServiceTest {
 
     @Autowired
-    private PokemonService todoService;
+    private PokemonService pokemonService;
     @MockBean
     private PokemonRepository pokemonRepository;
 
     @Test
     void findAll() {
-        List<Pokemon> todoList = List.of(Pokemon.builder().build());
-//        when(todoRepository.findAll()).thenReturn(todoList);
-        assertNotNull(todoService.findAll());
+        List<Pokemon> pokemonList = List.of(Pokemon.builder().build());
+        assertNotNull(pokemonService.findAll());
     }
 
     @Test
     void randomize() {
-        //todoService.sortPokemon();
+        //pokemonService.sortPokemon();
     }
 
 }

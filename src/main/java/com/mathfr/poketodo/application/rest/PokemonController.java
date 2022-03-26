@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PokemonController {
 
-    private PokemonService todoService;
+    private PokemonService pokemonService;
 
     @GetMapping
     public ResponseEntity<List<PokemonDTO>> findAll() {
@@ -23,7 +23,7 @@ public class PokemonController {
 
     @GetMapping("{id}")
     public ResponseEntity<PokemonDTO> findById(@PathVariable("id") Long id) {
-        return todoService.findById(id)
+        return pokemonService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

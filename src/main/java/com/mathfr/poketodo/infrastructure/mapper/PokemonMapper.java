@@ -7,9 +7,9 @@ public class PokemonMapper {
 
     private PokemonMapper() {}
 
-    public static PokemonDTO toDTO(Pokemon todo) {
+    public static PokemonDTO toDTO(Pokemon pokemon) {
         return PokemonDTO.builder()
-                .name(todo.getName())
+                .name(pokemon.getName())
                 .build();
     }
 

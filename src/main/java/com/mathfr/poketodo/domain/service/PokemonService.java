@@ -30,8 +30,8 @@ public class PokemonService {
     private PokemonRepository pokemonRepository;
     private PokeapiClient pokeapiClient;
 
-    public void add(PokemonDTO todoRequestDTO) {
-        pokemonRepository.save(PokemonMapper.toEntity(todoRequestDTO));
+    public void add(PokemonDTO pokemonRequestDTO) {
+        pokemonRepository.save(PokemonMapper.toEntity(pokemonRequestDTO));
     }
 
     public List<PokemonDTO> findAll() {
