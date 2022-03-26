@@ -2,25 +2,20 @@ package com.mathfr.poketodo.domain.service;
 
 import com.mathfr.poketodo.application.dto.PathPokemonDTO;
 import com.mathfr.poketodo.application.dto.PokemonDTO;
-import com.mathfr.poketodo.application.dto.ResourcePokemonDTO;
 import com.mathfr.poketodo.domain.model.Pokemon;
 import com.mathfr.poketodo.domain.repository.PokemonRepository;
 import com.mathfr.poketodo.domain.utils.PokemonUtils;
 import com.mathfr.poketodo.infrastructure.integration.PokeapiClient;
 import com.mathfr.poketodo.infrastructure.mapper.PokemonMapper;
-import feign.FeignException;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,10 +24,6 @@ public class PokemonService {
 
     private PokemonRepository pokemonRepository;
     private PokeapiClient pokeapiClient;
-
-    public void add(PokemonDTO pokemonRequestDTO) {
-        pokemonRepository.save(PokemonMapper.toEntity(pokemonRequestDTO));
-    }
 
     public List<PokemonDTO> findAll() {
         return pokemonRepository.findAll()
@@ -46,13 +37,15 @@ public class PokemonService {
         return pokemonRepository.findById(id).map(PokemonMapper::toDTO);
     }
 
-    @Transactional ////////
-    public void sortPokemon() {
+    public List<PokemonDTO> randomizePokemons() {
         try {
             this.pokemonRepository.deleteAll();
-            this.pokemonRepository.saveAll(this.findRandomizedPokemons(getListPokemonId()));
+            List<Pokemon> pokemonList = this.findRandomizedPokemons(getListPokemonId());
+            this.pokemonRepository.saveAll(pokemonList);
+            return pokemonList.stream().map(PokemonMapper::toDTO).collect(Collectors.toList());
         } catch (RuntimeException exception) {
             exception.printStackTrace();
+            return Collections.emptyList();
         }
     }
 

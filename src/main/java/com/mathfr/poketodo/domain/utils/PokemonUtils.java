@@ -1,15 +1,14 @@
 package com.mathfr.poketodo.domain.utils;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class PokemonUtils {
 
-    private static Integer qtdSaveInDB = 10;
+    private final static List<Long> randomizedIdList = new ArrayList<>();
+    private final static Random random = new Random();
+    private final static Integer qtdSaveInDB = 10;
 
     private PokemonUtils() {}
 
@@ -19,11 +18,13 @@ public class PokemonUtils {
     }
 
     public static List<Long> randomizeIds(List<Long> pokemonIdList) {
-        List<Long> randomizedIdList = new ArrayList<>();
-        Random random = new Random();
-
-        for(int x=0; x<=qtdSaveInDB; x++)
-            randomizedIdList.add((long) (random.nextInt(1) + pokemonIdList.size()));
+        randomizedIdList.clear();
+        for(int x=0; x<qtdSaveInDB; x++) {
+            long number = random.nextInt(pokemonIdList.size()) + 1;
+            while (randomizedIdList.contains(number))
+                number = random.nextInt(pokemonIdList.size()) + 1;
+            randomizedIdList.add(number);
+        }
 
         return randomizedIdList;
     }
